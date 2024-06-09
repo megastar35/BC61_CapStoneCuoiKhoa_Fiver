@@ -1,6 +1,39 @@
 header {
+    position: fixed;
+    z-index: 1;
     font-size: 1.5rem;
+    border-bottom: 1px solid #e4e5e7;
     nav {
         font-size: 1rem;
+        .nav_left {
+            .nav_item {
+                button {
+                    font-size: 16px;
+                    line-height: 24px;
+                    gap: 8px;
+                    color: #62646a;
+                }
+            }
+        }
+    }
+    .dropdown_box {
+        .dropdown_list {
+            box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.05);
+            li {
+                a {
+                    display: flex;
+                    flex-direction: column;
+                    span:first-child {
+                        color: #404145;
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+                    span:last-child {
+                        color: #62646a;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
     }
 }

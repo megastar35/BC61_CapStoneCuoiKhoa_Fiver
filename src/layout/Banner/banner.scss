@@ -25,5 +25,10 @@
     padding: 32px 32px 64px;
     .content {
         max-width: 650px;
+        form {
+            .btn_search {
+                padding: 13px 26px;
+            }
+        }
     }
 }

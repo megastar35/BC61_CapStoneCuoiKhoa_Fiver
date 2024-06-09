@@ -1,42 +1,72 @@
 import { Carousel } from 'antd';
 import './banner.scss';
 import Search from 'antd/es/transfer/search';
+import { useEffect, useState } from 'react';
+import { quanLyCongViec } from '../../services/quanLyCongViec';
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const navigate = useNavigate();
+
+  const handleInputChange = e => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    // Chuyển hướng đến trang kết quả tìm kiếm với query là từ khóa tìm kiếm
+    navigate(`/worklist/${searchQuery}`);
+  };
+  useEffect(() => {
+    console.log('searchQuery', searchQuery);
+    quanLyCongViec
+      .layDanhSachCongViecTheoTen(searchQuery)
+      .then(res => {
+        console.log('api data', res.data.content);
+        setResults(res.data.content);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [searchQuery]);
+
   return (
-    <div className=" relative">
+    <div className="relative ">
       <Carousel autoplay className="carousel" effect="fade" dots={false}>
         <div className="colin-background hero-background"></div>
         <div className="jenny-background hero-background"></div>
         <div className="scarlett-background hero-background"></div>
       </Carousel>
-      <div className="  flex items-center banner-content mx-auto absolute top-0 left-0 bottom-0 right-0 ">
-        <div className="content">
-          <h1 className=" text-5xl font-bold text-white">
+      <div className="container flex items-center banner-content absolute top-0 left-0 bottom-0 right-0 ">
+        <div className="content ">
+          <h1 className=" text-5xl font-bold text-white mb-10">
             Find the right <em className="font-normal">freelancer</em> service,
             right away
           </h1>
-          
           {/* Search */}
-          <form className="max-w-md mx-auto">
+          <form className="max-w" onSubmit={handleSubmit}>
             <label
               htmlFor="default-search"
-              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              className="mb-2 text-sm font-medium text-gray-900 sr-only "
             >
               Search
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"></div>
+              <div className="absolute  flex items-center pointer-events-none"></div>
               <input
                 type="search"
                 id="default-search"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search Mockups, Logos..."
+                className="block w-full p-3 ps-4 text-md text-gray-900 border border-gray-300 rounded-md bg-white focus:border-inherit"
+                placeholder="Search for any service..."
                 required
+                value={searchQuery}
+                onChange={handleInputChange}
               />
               <button
                 type="submit"
-                className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="btn_search text-white absolute end-0 bottom-0 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-inherit  rounded-r-md text-md px-4 py-2"
               >
                 <i className="fa-solid fa-magnifying-glass" />
               </button>
