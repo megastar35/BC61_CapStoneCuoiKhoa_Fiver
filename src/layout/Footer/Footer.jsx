@@ -1,8 +1,8 @@
 import './footer.scss';
 const Footer = () => {
   return (
-    <footer>
-      <div className="container  ">
+    <footer className="border-t-2 border-gray-100">
+      <div className="container pt-16 ">
         <div className="footer_content  ">
           <div className="grid grid-cols-5">
             <div className="footer_column">

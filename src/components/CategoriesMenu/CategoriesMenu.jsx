@@ -4,7 +4,7 @@ import './categoriesMenu.scss';
 import WorkTypeGroupList from '../WorkTypeGroupList/WorkTypeGroupList';
 const CategoriesMenu = () => {
   const [menuCongViec, setMenuCongViec] = useState([]);
-  const [listNhomLoai, setListNhomLoai] = useState([]);
+  // const [listNhomLoai, setListNhomLoai] = useState([]);
 
   useEffect(() => {
     quanLyCongViec
@@ -17,22 +17,15 @@ const CategoriesMenu = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (menuCongViec.length > 0) {
-      const allNhomChiTietLoai = menuCongViec.flatMap(
-        item => item.dsNhomChiTietLoai
-      );
-      setListNhomLoai(allNhomChiTietLoai);
-    }
-  }, [menuCongViec]); // Chỉ chạy lại hiệu ứng này khi menuCongViec thay đổi
-  // const menu = [
-  //   {
-  //     key: menuCongViec.id,
-  //     label: (
-  //       <WorkTypeGroupList key={menuCongViec.id} dsNhomLoai={listNhomLoai} />
-  //     ),
-  //   },
-  // ];
+  // useEffect(() => {
+  //   if (menuCongViec.length > 0) {
+  //     const allNhomChiTietLoai = menuCongViec.flatMap(
+  //       item => item.dsNhomChiTietLoai
+  //     );
+  //     setListNhomLoai(allNhomChiTietLoai);
+  //   }
+  // }, [menuCongViec]); // Chỉ chạy lại hiệu ứng này khi menuCongViec thay đổi
+
   return (
     <div className="categories_menu border-b border-b-gray-200">
       <div className="container">
@@ -42,7 +35,7 @@ const CategoriesMenu = () => {
               return (
                 <li key={item.id} className="py-2">
                   <WorkTypeGroupList
-                    tenLoaiCongViec={item.tenLoaiCongViec}
+                    loaiCongViec={item}
                     dsNhomChiTietLoai={item.dsNhomChiTietLoai}
                   />
                 </li>

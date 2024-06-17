@@ -1,13 +1,14 @@
 import { Carousel } from 'antd';
 import './banner.scss';
-import Search from 'antd/es/transfer/search';
 import { useEffect, useState } from 'react';
 import { quanLyCongViec } from '../../services/quanLyCongViec';
 import { useNavigate } from 'react-router-dom';
-
+import { setSearchValueResults } from '../../redux/slice/workSlice';
+import { path } from '../../common/path';
+import { useDispatch } from 'react-redux';
 const Banner = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [results, setResults] = useState([]);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleInputChange = e => {
@@ -17,7 +18,7 @@ const Banner = () => {
   const handleSubmit = e => {
     e.preventDefault();
     // Chuyển hướng đến trang kết quả tìm kiếm với query là từ khóa tìm kiếm
-    navigate(`/worklist/${searchQuery}`);
+    navigate(`${path.workList}/?query=${searchQuery}`);
   };
   useEffect(() => {
     console.log('searchQuery', searchQuery);
@@ -25,15 +26,15 @@ const Banner = () => {
       .layDanhSachCongViecTheoTen(searchQuery)
       .then(res => {
         console.log('api data', res.data.content);
-        setResults(res.data.content);
+        dispatch(setSearchValueResults(res.data.content));
       })
       .catch(err => {
         console.log(err);
       });
-  }, [searchQuery]);
+  }, [searchQuery, dispatch]);
 
   return (
-    <div className="relative ">
+    <div className="relative">
       <Carousel autoplay className="carousel" effect="fade" dots={false}>
         <div className="colin-background hero-background"></div>
         <div className="jenny-background hero-background"></div>
