@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import 'flowbite';
 import './header.scss';
+import SignIn from '../SignIn/SignIn';
+import SignUp from '../SignUp/SignUp';
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSign,setIsOpenSign]=useState(false);
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+  const statusSignUp=()=>{
+    setIsOpenSign(!isOpenSign);
+  };
+  useEffect(() => {
+    // Ensure Flowbite initializes the modals
+    const script = document.createElement('script');
+    script.src =
+      'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js';
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
   return (
     <header className="container">
       <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 ">
@@ -50,12 +72,15 @@ const Header = () => {
                 </ul>
               </div>
             </div>
-            <a
-              href="#"
+            <button
+              onClick={toggleModal}
               className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2  focus:outline-none "
+              type="button"
             >
-              Log in
-            </a>
+              Login
+            </button>
+            {isOpen && (<SignIn toggleModal={toggleModal} statusSignUp={statusSignUp}/>)}
+            {isOpenSign&&<SignUp statusSignUp={statusSignUp}/>}
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
