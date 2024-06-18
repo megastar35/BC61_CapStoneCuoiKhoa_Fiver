@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import InputCustom from '../../Input/InputCustom';
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { controlUserServer } from '../../services/ControlUser';
+import { AlertContext } from '../../App';
+import { handleSetValueLocalStore } from '../../utils/utils';
+import { useDispatch } from 'react-redux';
+import { handleGetValue } from '../../redux/slice/userSlice';
 const SignIn = ({ toggleModal, statusSignUp }) => {
+  const context= useContext(AlertContext)
   const navigate = useNavigate();
+  const dispatch=useDispatch();
   const [arrUser,setArrUser]=useState([]);
   const [errorSignIn,setErrorSignIn]=useState("");
   const styleImg = {
@@ -26,14 +32,19 @@ const SignIn = ({ toggleModal, statusSignUp }) => {
       console.log(value);
       // const  inforUser= arrUser.find(item=>item.email==value.email);
       controlUserServer.SignIn(value).then((res)=>{
-        console.log(res.data.content.user.role);
+        console.log(res.data.content);
         toggleModal();
         resetForm();
+        context.handleAlert('success','Đăng nhập thành công')
         // navigate('/users/admin');
+        handleSetValueLocalStore("dataUser",res.data.content);
+        dispatch(handleGetValue(res.data.content));
         if(res.data.content.user.role=="ADMIN")navigate('/users/admin');
       }).catch((err)=>{
         resetForm();
-        console.log(err)});
+        console.log(err);
+        context.handleAlert('error',err.response.data.content)
+      });
       // resetForm();
       // if(inforUser){
       //   if(inforUser.password==value.password){
@@ -158,7 +169,7 @@ const SignIn = ({ toggleModal, statusSignUp }) => {
             </button>
           </div>
           <div className="p-4 md:p-5">
-            {errorSignIn!=""?<p className="text-black-500 p-[10px] bg-orange-400 text-center text-sm">{errorSignIn}</p>:''}
+            {/* {errorSignIn!=""?<p className="text-black-500 p-[10px] bg-orange-400 text-center text-sm">{errorSignIn}</p>:''} */}
             <form
               onSubmit={formilk.handleSubmit}
               className="space-y-4"

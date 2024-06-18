@@ -5,9 +5,11 @@ import { controlUserServer } from '../../services/ControlUser';
 import ProfileCard from '../../layout/Profile/ProfileCard';
 import EnrollNow from '../../layout/Profile/EnrollNow';
 import ProfileDescriptions from '../../layout/Profile/ProfileDescriptions';
+import { useSelector } from 'react-redux';
 const PersonalPage = () => {
+  const {user}=useSelector(state=>state.userSlice);
   const [avatar,setAvatar]=useState('https://antimatter.vn/wp-content/uploads/2022/11/anh-avatar-trang-fb-mac-dinh.jpg')
-  const [userName,setUserName]=useState('Tobie');
+  const [userName,setUserName]=useState(user.user.name);
   return (
     <div>
       <Header />

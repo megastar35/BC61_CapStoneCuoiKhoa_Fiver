@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Formik, useFormik } from 'formik';
 import InputCustom from '../../Input/InputCustom';
 import * as Yup from 'yup';
 import { controlUserServer } from '../../services/ControlUser';
+import { AlertContext } from '../../App';
 const SignUp = ({ statusSignUp }) => {
+  const context=useContext(AlertContext);
   const styleImg = {
     backgroundImage:
       'url("https://fiverr-res.cloudinary.com/npm-assets/layout-service/standard.0638957.png"',
@@ -26,8 +28,11 @@ const SignUp = ({ statusSignUp }) => {
         console.log(res.data.content);
         statusSignUp();
         resetForm();
+        context.handleAlert('success','Đăng ký thành công')
       }).catch((err)=>{
         console.log(err);
+        context.handleAlert('error',err.response.data.content)
+
       })
     },
     validationSchema: Yup.object({

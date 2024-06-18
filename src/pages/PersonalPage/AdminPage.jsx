@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, Space, Tag } from 'antd';
 import { controlUserServer } from '../../services/ControlUser';
 import { useFormik } from 'formik';
 import InputCustom from '../../Input/InputCustom';
 import * as Yup from 'yup';
+import { AlertContext } from '../../App';
 
 const AdminPage = () => {
+  const context=useContext(AlertContext);
   const [arrUser, setArrUser] = useState([]);
   const [inforUpdateUser,setInforUpdateUser]=useState([]);
   const [pagination, setPagination] = useState({
@@ -25,8 +27,11 @@ const AdminPage = () => {
         console.log(res)
         resetForm()
         setArrUser([...arrUser,res.data.content]);
+        context.handleAlert('success','Đăng ký thành công')
       }).catch((err)=>{
         console.log(err)
+        context.handleAlert('error',err.response.data.content)
+
       })
       // resetForm();
     },
@@ -181,8 +186,10 @@ const AdminPage = () => {
               controlUserServer.UpdateUser(formilk.values).then((res)=>{
                 console.log(res)
                 getAllUser();
+                context.handleAlert('success',"Cập nhật thành công")
               }).catch((err)=>{
                 console.log(err)
+                context.handleAlert('error',res.response.data.content);
               })
             }}
             type="button"

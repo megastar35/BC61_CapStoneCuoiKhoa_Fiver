@@ -7,17 +7,19 @@ import Languages from './ComponentDescription/Languages';
 import Skills from './ComponentDescription/Skills';
 import Education from './ComponentDescription/Education';
 import Certification from './ComponentDescription/Certification';
+import { useSelector } from 'react-redux';
 const ProfileDescriptions = () => {
+  const {user}=useSelector(state=>state.userSlice);
   const [OpenModelDes, IsOpenModelDes] = useState(false);
   const [description, setDescription] = useState('');
   const [isAddLanguages, setIsLanguages] = useState(false);
   const [addLanguages, setAddLanguages] = useState([]);
   const [isOpenSkill, setIsOpenSkill] = useState(false);
-  const [newSkill, setNewSkill] = useState([]);
+  const [newSkill, setNewSkill] = useState(user.user.skill);
   const [IsOpenEdu, setIsOpenEdu] = useState(false);
   const [arrEdu, setArrEdu] = useState([]);
   const [IsOpenCertification,SetIsOpenCertification]=useState(false);
-  const [arrCertification,setArrCertificaiton]=useState([]);
+  const [arrCertification,setArrCertificaiton]=useState(user.user.certification);
   return (
     <div className=" mt-10 w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
       <div className="flow-root">
