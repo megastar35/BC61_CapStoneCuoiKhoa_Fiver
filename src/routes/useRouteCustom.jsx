@@ -7,20 +7,20 @@ import AdminPage from '../pages/PersonalPage/AdminPage';
 // customHook hỗ trợ quản lí các tuyến đường của trang
 const useRouteCustom = () => {
   const route = useRoutes([
-  // {
-  //     path: '/',
-  //     element: <HomeTemplate />,
-  //     children: [
-  //       {
-  //         index: true,
-  //         element: <HomePage />,
-  //       },
-  //     ],
-  //   },
-    {
+  {
       path: '/',
-      element: <PersonalPage />,
+      element: <HomeTemplate />,
+      children: [
+        {
+          index: true,
+          element: <HomePage />,
+        },
+      ],
     },
+    // {
+    //   path: '/',
+    //   element: <PersonalPage />,
+    // },
     // {
     //   path: '/users/admin',
     //   element: <AdminPage />,
