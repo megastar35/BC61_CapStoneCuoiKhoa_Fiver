@@ -8,14 +8,14 @@ import ProfileDescriptions from '../../layout/Profile/ProfileDescriptions';
 import { useSelector } from 'react-redux';
 const PersonalPage = () => {
   const {user}=useSelector(state=>state.userSlice);
-  const [avatar,setAvatar]=useState('https://antimatter.vn/wp-content/uploads/2022/11/anh-avatar-trang-fb-mac-dinh.jpg')
-  const [userName,setUserName]=useState(user.user.name);
+  const [arrUser,setArrUser]=useState(user);
+  const [avatar,setAvatar]=useState(user.user.avatar);
   return (
     <div>
       <Header />
       <div className="flex justify-around row bg-[#F7F7F7]">
         <div className="leftContent">
-          <ProfileCard userName={userName} setUserName={setUserName} avatar={avatar} setAvatar={setAvatar} />
+          <ProfileCard arrUser={arrUser} setArrUser={setArrUser}  avatar={avatar} setAvatar={setAvatar} />
           <EnrollNow />
           <ProfileDescriptions/>
         </div>

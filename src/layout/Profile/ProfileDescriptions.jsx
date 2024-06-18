@@ -19,7 +19,7 @@ const ProfileDescriptions = () => {
   const [IsOpenEdu, setIsOpenEdu] = useState(false);
   const [arrEdu, setArrEdu] = useState([]);
   const [IsOpenCertification,SetIsOpenCertification]=useState(false);
-  const [arrCertification,setArrCertificaiton]=useState(user.user.certification);
+  const [arrCertification,setArrCertification]=useState(user.user.certification);
   return (
     <div className=" mt-10 w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8">
       <div className="flow-root">
@@ -61,7 +61,7 @@ const ProfileDescriptions = () => {
               IsOpenCertification={IsOpenCertification} 
               SetIsOpenCertification={SetIsOpenCertification}
               arrCertification={arrCertification}
-              setArrCertificaiton={setArrCertificaiton}
+              setArrCertification={setArrCertification}
             />
           </li>
         </ul>

@@ -1,8 +1,41 @@
-import React, { useState } from 'react';
-const ProfileCard = ({ avatar, setAvatar, setUserName, userName }) => {
+import React, { useEffect, useState} from 'react';
+import { controlUserServer } from '../../services/ControlUser';
+import { useDispatch } from 'react-redux';
+import { handleGetValue } from '../../redux/slice/userSlice';
+import { handleSetValueLocalStore } from '../../utils/utils';
+
+const ProfileCard = ({ arrUser,setArrUser,avatar, setAvatar}) => {
+  const dispatch=useDispatch();
+  const [isChangeName, setIsChangeName] = useState(false);
+  const [temporaryName,setTemporaryName]=useState('');
   const handleChangeImage = event => {
+    // const file = event.target.files[0];
+    // if (file) {
+    //   const formData = new FormData();
+    //   formData.append('avatar', file);
+    //   console.log(formData);
+    //   controlUserServer.UpdateAvatar(formData).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)})
+    //   const reader = new FileReader();
+    //   reader.onloadend = () => {
+    //     setAvatar(reader.result);
+    //   };
+    //   reader.readAsDataURL(file);
+    // }
     const file = event.target.files[0];
     if (file) {
+      const formData = new FormData();
+      formData.append('avatar', file);
+      console.log(formData);
+      // Assuming controlUserServer.UpdateAvatar is a function that takes FormData and sends it to the server
+      controlUserServer.UpdateAvatar(formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  
+      // Optionally set the avatar preview if needed
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatar(reader.result);
@@ -10,8 +43,30 @@ const ProfileCard = ({ avatar, setAvatar, setUserName, userName }) => {
       reader.readAsDataURL(file);
     }
   };
-  const [isChangeName, setIsChangeName] = useState(false);
-  const [temporaryName,setTemporaryName]=useState('');
+  const handleChangeName=()=>{
+  
+    setArrUser(prevState => {
+      const newUserState = {
+          ...prevState,
+          user: {
+              ...prevState.user,
+              name: temporaryName
+          }
+      };
+      setIsChangeName(false);
+      handleSetValueLocalStore("dataUser",newUserState);
+      dispatch(handleGetValue(newUserState));
+      // Sử dụng newUserState cho các thao tác tiếp theo
+      controlUserServer.UpdateUser(newUserState.user).then((res) => {
+          console.log(res);
+      }).catch((err) => {
+          console.log(err);
+      });
+
+      return newUserState;
+  });
+  }
+
   const renderFormChangeName = () => {
     return <form>
     <input
@@ -20,7 +75,7 @@ const ProfileCard = ({ avatar, setAvatar, setUserName, userName }) => {
       className="border-none underline"
       placeholder="Change your name"
       autoComplete="off"
-      defaultValue={userName}
+      defaultValue={arrUser.user.name}
       onChange={(e)=>{
         setTemporaryName(e.target.value);
       }}
@@ -31,14 +86,17 @@ const ProfileCard = ({ avatar, setAvatar, setUserName, userName }) => {
         Cancel
       </button>
       <button onClick={()=>{
-        setUserName(temporaryName);
-        setIsChangeName(false)}} className=" px-3 py-2 bg-green-500 rounded">
+        handleChangeName()
+        }} className=" px-3 py-2 bg-green-500 rounded">
         Update
       </button>
     </div>
           </form>;
   };
-  return (
+  useEffect(()=>{
+    if(avatar=="") setAvatar('https://antimatter.vn/wp-content/uploads/2022/11/anh-avatar-trang-fb-mac-dinh.jpg');
+  },[])
+   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
       <div className="p-10">
         <div className="flex flex-col items-center">
@@ -75,7 +133,7 @@ const ProfileCard = ({ avatar, setAvatar, setUserName, userName }) => {
             </div>
           </label>
           {!isChangeName?(<div className="flex">
-            <p>{userName}</p>
+            <p>{arrUser.user.name}</p>
             <button
               onClick={() => {
                 setIsChangeName(true);

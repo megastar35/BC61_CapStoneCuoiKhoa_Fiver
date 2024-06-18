@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { handleGetValueLocalStore } from "../../utils/utils";
 const initialState={
-    user:null
+     user:handleGetValueLocalStore('dataUser')
 }
 const userSlice=createSlice({
     name:"user",

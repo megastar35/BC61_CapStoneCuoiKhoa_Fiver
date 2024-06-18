@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { AutoComplete } from 'antd';
 import { controlUserServer } from '../../../services/ControlUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleGetValue } from '../../../redux/slice/userSlice';
+import { handleSetValueLocalStore } from '../../../utils/utils';
 const Skills = ({ isOpenSkill, setIsOpenSkill, newSkill, setNewSkill }) => {
+  const {user}=useSelector(state=>state.userSlice);
+  const [arrUser,setArrUser]=useState(user);
   const [arrSkill, setArrSkill] = useState([]);
   const [optionSkill,setOptionSkill]=useState([]);
   const [skill,setSkill]=useState('');
   const [level,setLevel]=useState('');
+  const dispatch=useDispatch();
   useEffect(()=>{
     controlUserServer.GetSkillsUser()
     .then((res) => {
@@ -27,11 +33,41 @@ const Skills = ({ isOpenSkill, setIsOpenSkill, newSkill, setNewSkill }) => {
   // },[optionSkill])
   const renderListSkill=()=>{
     return newSkill.map((item,index)=>{
-          return <li className=' mt-1 border-2 rounded-[15px] p-2 w-[100px]' key={index}>{item.skill}</li>
+          return <li className=' mt-1 border-2 rounded-[15px] p-2 w-[100px]' key={index}>{item}</li>
     })
     console.log("skill: ",skill);
     console.log("level: ",level);
     console.log("newSkill: ",newSkill);
+  }
+  const handleChangeSkill=()=>{
+    const skillUser=skill;
+  setNewSkill(prevSkills => {
+    const updatedSkills = [...prevSkills, skillUser];
+    
+    // Cập nhật arrUser với updatedSkills
+    setArrUser(prevState => {
+      const newUserState = {
+        ...prevState,
+        user: {
+          ...prevState.user,
+          skill: updatedSkills,
+        },
+      };
+        controlUserServer.UpdateUser(newUserState.user)
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        console.log(newUserState);
+        dispatch(handleGetValue(newUserState));
+        handleSetValueLocalStore("dataUser",newUserState);
+      return newUserState;
+    });
+    return updatedSkills;
+  });
+  setIsOpenSkill(false);
   }
   return (
     <div className="skill">
@@ -89,9 +125,7 @@ const Skills = ({ isOpenSkill, setIsOpenSkill, newSkill, setNewSkill }) => {
               <button
                 className="update rounded"
                 onClick={() => {
-                  const skillUser={'skill':skill,'level':level};
-                  setNewSkill([...newSkill,skillUser]);
-                  setIsOpenSkill(false);
+                  handleChangeSkill();
                 }}
               >
                 Add

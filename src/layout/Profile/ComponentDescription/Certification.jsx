@@ -1,21 +1,58 @@
 import React, { useState } from 'react';
 import { controlUserServer } from '../../../services/ControlUser';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleSetValueLocalStore } from '../../../utils/utils';
+import { handleGetValue } from '../../../redux/slice/userSlice';
 const Certification = ({
   IsOpenCertification,
   SetIsOpenCertification,
   arrCertification,
-  setArrCertificaiton,
+  setArrCertification,
 }) => {
+  const {user}=useSelector(state=>state.userSlice);
+  const [arrUser,setArrUser]=useState(user);
+  const dispatch=useDispatch();
   const [certification,setCertification]=useState('');
   const [certifiedFrom,setCertifiedFrom]=useState('');
   const [year,setYear]=useState();
   const renderCertification=()=>{
     return arrCertification.map((item,index)=>{
       return <li className='mt-2' key={index}>
-        <h4>{item.award}</h4>
-        <h5 className='text-[#b2b2b2] text-[14px] font-[400]'>{item.certifiedFrom} {item.year}</h5>
+        <h4>{item}</h4>
+        <h5 className='text-[#b2b2b2] text-[14px] font-[400]'>USA 2022</h5>
       </li>
     })
+  }
+  const handleChangeCertification=()=>{
+    // const certificationUser=certification
+    // setArrCertification([...arrCertification,certificationUser]);
+    // SetIsOpenCertification(false);
+    // setArrUser([...arrUser,certificationUser])
+    // controlUserServer.UpdateUser(arrUser.user).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)})
+    const certificationUser = certification;
+setArrCertification(prevCertifications => [...prevCertifications, certificationUser]);
+SetIsOpenCertification(false);
+
+setArrUser(prevState => {
+  const newUserState = {
+    ...prevState,
+    user: {
+      ...prevState.user,
+      certification: [...prevState.user.certification, certificationUser]
+    }
+  };
+  handleSetValueLocalStore("dataUser",newUserState);
+  dispatch(handleGetValue(newUserState));
+  controlUserServer.UpdateUser(newUserState.user)
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  return newUserState;
+});
   }
   return (
     <div className="certification">
@@ -128,9 +165,7 @@ const Certification = ({
               <button
                 className="update rounded bg-[#3FCA89] mr-[10px] px-[50px] py-[10px]"
                 onClick={() => {
-                  const certificationUser={'award':certification,'certifiedFrom':certifiedFrom,'year':year};
-                  setArrCertificaiton([...arrCertification,certificationUser]);
-                  SetIsOpenCertification(false);
+                  handleChangeCertification();
                 }}
               >
                 Add

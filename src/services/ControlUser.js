@@ -22,5 +22,8 @@ export const controlUserServer={
     },
     GetSkillsUser:()=>{
         return http.get("/skill");
+    },
+    UpdateAvatar:(data)=>{
+        return http.post("/users/upload-avatar",data);
     }
 }
