@@ -9,24 +9,11 @@ const ProfileCard = ({ arrUser,setArrUser,avatar, setAvatar}) => {
   const [isChangeName, setIsChangeName] = useState(false);
   const [temporaryName,setTemporaryName]=useState('');
   const handleChangeImage = event => {
-    // const file = event.target.files[0];
-    // if (file) {
-    //   const formData = new FormData();
-    //   formData.append('avatar', file);
-    //   console.log(formData);
-    //   controlUserServer.UpdateAvatar(formData).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)})
-    //   const reader = new FileReader();
-    //   reader.onloadend = () => {
-    //     setAvatar(reader.result);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
     const file = event.target.files[0];
     if (file) {
       const formData = new FormData();
       formData.append('avatar', file);
       console.log(formData);
-      // Assuming controlUserServer.UpdateAvatar is a function that takes FormData and sends it to the server
       controlUserServer.UpdateAvatar(formData)
         .then((res) => {
           console.log(res);
@@ -34,8 +21,6 @@ const ProfileCard = ({ arrUser,setArrUser,avatar, setAvatar}) => {
         .catch((err) => {
           console.log(err);
         });
-  
-      // Optionally set the avatar preview if needed
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatar(reader.result);

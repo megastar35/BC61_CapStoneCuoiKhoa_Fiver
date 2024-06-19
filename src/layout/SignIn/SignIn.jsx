@@ -39,6 +39,7 @@ const SignIn = ({ toggleModal, statusSignUp }) => {
         // navigate('/users/admin');
         handleSetValueLocalStore("dataUser",res.data.content);
         dispatch(handleGetValue(res.data.content));
+        navigate('/users');
         if(res.data.content.user.role=="ADMIN")navigate('/users/admin');
       }).catch((err)=>{
         resetForm();
