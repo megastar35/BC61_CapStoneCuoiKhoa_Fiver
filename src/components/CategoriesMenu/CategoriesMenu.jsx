@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { quanLyCongViec } from '../../services/quanLyCongViec';
 import './categoriesMenu.scss';
 import WorkTypeGroupList from '../WorkTypeGroupList/WorkTypeGroupList';
-const CategoriesMenu = () => {
+const CategoriesMenu = ({ setDisplayQuery }) => {
   const [menuCongViec, setMenuCongViec] = useState([]);
   // const [listNhomLoai, setListNhomLoai] = useState([]);
 
@@ -37,6 +37,7 @@ const CategoriesMenu = () => {
                   <WorkTypeGroupList
                     loaiCongViec={item}
                     dsNhomChiTietLoai={item.dsNhomChiTietLoai}
+                    setDisplayQuery={setDisplayQuery}
                   />
                 </li>
               );

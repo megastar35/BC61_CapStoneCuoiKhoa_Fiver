@@ -1,26 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import WorkCard from '../../components/WorkCard/WorkCard';
-import { useEffect } from 'react';
-import { quanLyCongViec } from '../../services/quanLyCongViec';
-import { setSearchValueResults } from '../../redux/slice/workSlice';
 
 const WorkItemList = () => {
-  const dispatch = useDispatch();
-  const selectedChiTietId = useSelector(
-    state => state.workList.selectedChiTietId
-  );
-  const results = useSelector(state => state.workList.results);
+  const searchResults = useSelector(state => state.work.searchResults);
+  const chiTietResults = useSelector(state => state.work.chiTietResults);
+  const isSearchingByName = useSelector(state => state.work.isSearchingByName);
+  const results = isSearchingByName ? searchResults : chiTietResults;
+  // const results = useSelector(state => state.workList.results);
 
-  useEffect(() => {
-    quanLyCongViec
-      .layCongViecTheoChiTietLoai(selectedChiTietId)
-      .then(res => {
-        dispatch(setSearchValueResults(res.data.content));
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, [selectedChiTietId, dispatch]);
+  // useEffect(() => {
+  //   quanLyCongViec
+  //     .layCongViecTheoChiTietLoai(selectedChiTietId)
+  //     .then(res => {
+  //       dispatch(setSearchValueResults(res.data.content));
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // }, [selectedChiTietId, dispatch]);
 
   return (
     <div>

@@ -5,41 +5,26 @@ import WorkItemList from '../../layout/WorkItemList/WorkItemList';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { useEffect } from 'react';
-import { quanLyCongViec } from '../../services/quanLyCongViec';
-import { setChiTietCongViecId } from '../../redux/slice/workSlice';
+import { useEffect, useState } from 'react';
+import { fetchWorkList } from '../../redux/slice/workSlice';
 
 const WorkListPage = () => {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('query'); //giá trị query là tên của ?query ở component banner
-  const totalResult = useSelector(state => state.workList.results);
-  const totalItems = totalResult.length;
+  const searchResults = useSelector(state => state.work.searchResults);
+  const chiTietResults = useSelector(state => state.work.chiTietResults);
+  const isSearchingByName = useSelector(state => state.work.isSearchingByName);
+  const totalItems = isSearchingByName
+    ? searchResults.length
+    : chiTietResults.length;
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (totalResult == []) {
-      quanLyCongViec
-        .layDanhSachCongViecTheoTen(query)
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  }, [query]);
+  const [displayQuery, setDisplayQuery] = useState(query);
 
   useEffect(() => {
     if (query) {
-      quanLyCongViec
-        .layCongViecTheoChiTietLoai(query)
-        .then(res => {
-          console.log(res.data.content);
-          dispatch(setChiTietCongViecId(res.data.content));
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      dispatch(fetchWorkList(query));
+      setDisplayQuery(query);
     }
   }, [query, dispatch]);
   const items = [
@@ -70,12 +55,11 @@ const WorkListPage = () => {
   ];
   return (
     <div className="worklist_page">
-      <CategoriesMenu />
+      <CategoriesMenu setDisplayQuery={setDisplayQuery} />
       <div className="container">
         <div className="header_search_result pt-8  ">
           <span className="text-3xl">
-            Results for{''}
-            <b> {totalResult ? totalResult[0].tenChiTietLoai : null}</b>
+            Results for <b>{displayQuery}</b>
           </span>
         </div>
         <SortTopBar />
