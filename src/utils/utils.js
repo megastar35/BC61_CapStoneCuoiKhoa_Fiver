@@ -1,5 +1,5 @@
 export const handleGetValueLocalStore = key => {
-  const localString = localStorage.get(key);
+  const localString = localStorage.getItem(key);
   return localString ? JSON.parse(localString) : null;
 };
 
