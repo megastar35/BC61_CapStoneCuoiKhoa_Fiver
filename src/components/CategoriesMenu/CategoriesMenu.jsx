@@ -10,25 +10,20 @@ const CategoriesMenu = ({ setDisplayQuery }) => {
     quanLyCongViec
       .layMenuLoaiCongViec()
       .then(res => {
-        setMenuCongViec(res.data.content);
+        // Lọc ra các phần tử có dsNhomChiTietLoai không phải là mảng rỗng
+        const notEmptyWorkTypeMenu = res.data.content.filter(
+          item => item.dsNhomChiTietLoai.length > 0
+        );
+        setMenuCongViec(notEmptyWorkTypeMenu);
       })
       .catch(err => {
         console.log(err);
       });
   }, []);
 
-  // useEffect(() => {
-  //   if (menuCongViec.length > 0) {
-  //     const allNhomChiTietLoai = menuCongViec.flatMap(
-  //       item => item.dsNhomChiTietLoai
-  //     );
-  //     setListNhomLoai(allNhomChiTietLoai);
-  //   }
-  // }, [menuCongViec]); // Chỉ chạy lại hiệu ứng này khi menuCongViec thay đổi
-
   return (
     <div className="categories_menu border-b border-b-gray-200">
-      <div className="container">
+      <div className="max-width-container">
         <nav>
           <ul className="flex justify-between">
             {menuCongViec?.map(item => {

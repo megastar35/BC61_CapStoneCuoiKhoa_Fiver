@@ -1,33 +1,43 @@
-@mixin customBgImage {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-}
-
-.carousel {
-    .hero-background {
-        @include customBgImage();
-        height: 680px;
-        text-align: center;
-    }
-    .colin-background {
-        background-image: url("./../../assets/images/colin-2x.jpg");
-    }
-    .jenny-background {
-        background-image: url("./../../assets/images/jenny-2x.jpg");
-    }
-    .scarlett-background {
-        background-image: url("./../../assets/images/scarlett-2x.jpg");
-    }
-}
 .banner-content {
     max-width: 1440px;
-    padding: 32px 32px 64px;
     .content {
-        max-width: 650px;
-        form {
-            .btn_search {
-                padding: 13px 26px;
+        background-image: url("./src/assets/images/Banner-hero.png");
+        height: 500px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 16px;
+        padding: 0;
+        .top_content {
+            max-width: 616px;
+            h1 {
+                font-size: 56px;
+            }
+            form {
+                position: relative;
+                height: 60px;
+                input {
+                    padding-right: 58px;
+                    border-radius: 12px;
+                }
+                .btn_search {
+                    height: 48px;
+                    width: 48px;
+                    position: absolute;
+                    top: 6px;
+                    right: 6px;
+                }
+            }
+        }
+
+        .trusted_by {
+            position: absolute;
+            bottom: 0;
+            background-color: inherit;
+            ul li {
+                img {
+                    height: 14px;
+                    opacity: 0.5;
+                }
             }
         }
     }

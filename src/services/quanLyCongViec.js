@@ -14,4 +14,7 @@ export const quanLyCongViec = {
   layMenuLoaiCongViec: () => {
     return http.get('/cong-viec/lay-menu-loai-cong-viec');
   },
+  layChiTietCongViec: maCongViec => {
+    return http.get(`/cong-viec/lay-cong-viec-chi-tiet/${maCongViec} `);
+  },
 };

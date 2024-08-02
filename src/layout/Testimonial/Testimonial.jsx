@@ -21,7 +21,7 @@ const Testimonial = () => {
 
   return (
     <div className="testimonial">
-      <div className="container mb-24">
+      <div className="max-width-container mb-24">
         <Slider {...settings}>
           <div>
             <div className="slide flex items-center">

@@ -12,7 +12,7 @@ import './categories.scss';
 const Categories = () => {
   return (
     <div className="categories mb-24">
-      <div className="container">
+      <div className="max-width-container">
         <h2 className="text-3xl font-bold mb-10">You need it, we've got it</h2>
         <ul className="categories_list grid grid-cols-5 align-middle justify-center">
           <li>

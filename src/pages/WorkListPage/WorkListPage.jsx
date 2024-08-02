@@ -56,14 +56,13 @@ const WorkListPage = () => {
   return (
     <div className="worklist_page">
       <CategoriesMenu setDisplayQuery={setDisplayQuery} />
-      <div className="container">
+      <div className="max-width-container">
         <div className="header_search_result pt-8  ">
           <span className="text-3xl">
             Results for <b>{displayQuery}</b>
           </span>
         </div>
         <SortTopBar />
-
         <div className="text-gray-400 mt-4 py-2 flex justify-between">
           {totalItems > 0 ? <p>{totalItems} Results</p> : <p> 0 Result</p>}
           <div className="sort_by">

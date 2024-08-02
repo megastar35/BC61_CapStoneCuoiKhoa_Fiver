@@ -1,0 +1,24 @@
+.ant-dropdown-menu {
+    display: flex;
+    .ant-dropdown-menu-item-group-title {
+        p.menu-group-item {
+            color: #404145;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 24px;
+        }
+    }
+    .ant-dropdown-menu-item-group-list {
+        .ant-dropdown-menu-item {
+            a.detail-item {
+                color: #62646a;
+                display: block;
+                font-size: 16px;
+                line-height: 24px;
+                padding: 4px 0;
+                position: relative;
+                text-decoration: none;
+            }
+        }
+    }
+}

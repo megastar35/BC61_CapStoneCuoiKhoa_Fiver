@@ -7,7 +7,7 @@ import SellingProposition720 from '../../assets/images/selling-proposition/selli
 const Selling = () => {
   return (
     <div className="selling py-24  bg-green-50 mb-24">
-      <div className="container mx-auto">
+      <div className="max-width-container">
         <div className=" md:block lg:flex  items-center">
           <div className="selling_text md:pr-16 lg:pr-30 ">
             <h2 className="pb-6 text-3xl font-bold">

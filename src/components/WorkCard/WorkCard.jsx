@@ -1,9 +1,15 @@
+import { Link } from 'react-router-dom';
 import './workCard.scss';
+import { path } from '../../common/path';
 
 const WorkCard = ({ workItem }) => {
   const { congViec, tenNguoiTao, avatar } = workItem;
   return (
-    <div className="card_layout">
+    <Link
+      to={`${path.detailWork.replace(':id', congViec.id)}`}
+      target="_blank"
+      className="card_layout"
+    >
       <div className="work_image rounded-md overflow-hidden">
         <img src={congViec.hinhAnh} alt="" />
       </div>
@@ -29,7 +35,7 @@ const WorkCard = ({ workItem }) => {
       <div className="price font-bold font-medium">
         <span>From US${congViec.giaTien}</span>
       </div>
-    </div>
+    </Link>
   );
 };
 

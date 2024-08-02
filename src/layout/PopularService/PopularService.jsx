@@ -24,7 +24,7 @@ const PopularService = () => {
     centerPadding: '20px',
   };
   return (
-    <div className="popular_sevices container ">
+    <div className="max-width-container popular_sevices  ">
       <div className="mb-20">
         <h2 className="text-4xl pb-6 font-bold text-gray-600">
           Popular services

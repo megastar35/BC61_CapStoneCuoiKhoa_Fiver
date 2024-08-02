@@ -1,78 +1,34 @@
-import { Carousel } from 'antd';
 import './banner.scss';
-import { useEffect, useState } from 'react';
-import { quanLyCongViec } from '../../services/quanLyCongViec';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { setSearchValueResults } from '../../redux/slice/workSlice';
-import { path } from '../../common/path';
 import { useDispatch } from 'react-redux';
+import SearchForm from '../../components/SearchForm/SearchForm';
+import TrustBy from '../TrustBy/TrustBy';
+import { useSearch } from '../../contexts/SearchProvider/SearchProvider';
 const Banner = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const { searchQuery, setSearchQuery, handleSearchSubmit } = useSearch();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handleInputChange = e => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    // Chuyển hướng đến trang kết quả tìm kiếm với query là từ khóa tìm kiếm
-    navigate(`${path.workList}/?query=${searchQuery}`);
-  };
-  useEffect(() => {
-    console.log('searchQuery', searchQuery);
-    quanLyCongViec
-      .layDanhSachCongViecTheoTen(searchQuery)
-      .then(res => {
-        console.log('api data', res.data.content);
-        dispatch(setSearchValueResults(res.data.content));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, [searchQuery, dispatch]);
+  const bannerRef = useRef(null);
 
   return (
-    <div className="relative">
-      <Carousel autoplay className="carousel" effect="fade" dots={false}>
-        <div className="colin-background hero-background"></div>
-        <div className="jenny-background hero-background"></div>
-        <div className="scarlett-background hero-background"></div>
-      </Carousel>
-      <div className="container flex items-center banner-content absolute top-0 left-0 bottom-0 right-0 ">
-        <div className="content ">
-          <h1 className=" text-5xl font-bold text-white mb-10">
-            Find the right <em className="font-normal">freelancer</em> service,
-            right away
-          </h1>
-          {/* Search */}
-          <form className="max-w" onSubmit={handleSubmit}>
-            <label
-              htmlFor="default-search"
-              className="mb-2 text-sm font-medium text-gray-900 sr-only "
-            >
-              Search
-            </label>
-            <div className="relative">
-              <div className="absolute  flex items-center pointer-events-none"></div>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full p-3 ps-4 text-md text-gray-900 border border-gray-300 rounded-md bg-white focus:border-inherit"
-                placeholder="Search for any service..."
-                required
-                value={searchQuery}
-                onChange={handleInputChange}
-              />
-              <button
-                type="submit"
-                className="btn_search text-white absolute end-0 bottom-0 bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-inherit  rounded-r-md text-md px-4 py-2"
-              >
-                <i className="fa-solid fa-magnifying-glass" />
-              </button>
-            </div>
-          </form>
+    <div className="relative" ref={bannerRef}>
+      <div className="max-width-container banner-content mb-10  ">
+        <div className="content flex items-center justify-center flex-col ">
+          <div className="top_content relative">
+            <h1 className=" font-medium text-white mb-10 text-center">
+              Find the right{' '}
+              <em className="font-normal text-green-400">freelancer</em>{' '}
+              service, right away
+            </h1>
+            {/* Search */}
+            <SearchForm
+              handleSubmit={e => handleSearchSubmit(e, navigate, dispatch)}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
+          </div>
+          <TrustBy />
         </div>
       </div>
     </div>
